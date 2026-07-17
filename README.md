@@ -1,19 +1,19 @@
 # HydroCore
 
-HydroCore is a clean baseline for building water-treatment applications. This repository keeps the generic system foundation: authentication, RBAC, menu management, organization/user management, system configuration, generic data query plumbing, and the frontend shell.
+HydroCore 是用于二次开发水处理系统的干净基础工程。本仓库保留通用系统底座：认证、RBAC、菜单管理、组织与用户管理、系统配置、通用数据查询管道，以及前端应用壳。
 
-This baseline does not include real water-treatment process models, device control algorithms, prediction algorithms, reports, or production plant data. Add those through separate OpenSpec/Comet changes.
+当前基线不包含真实水处理工艺模型、设备控制算法、预测算法、报表或生产现场数据。这些能力应通过独立的 OpenSpec/Comet 变更逐步加入。
 
-## Repository Layout
+## 仓库结构
 
-- `hydrocore-be/`: Spring Boot backend.
-- `hydrocore-fe/`: Vue 3 frontend.
-- `openspec/`: OpenSpec and Comet change artifacts.
-- `docs/`: product-level and cross-repository documentation.
+- `hydrocore-be/`：Spring Boot 后端。
+- `hydrocore-fe/`：Vue 3 前端。
+- `openspec/`：OpenSpec 与 Comet 变更产物。
+- `docs/`：产品级与跨仓库文档。
 
-The frontend and backend directories can keep their own Git history. This root repository is used for coordination docs and OpenSpec/Comet artifacts.
+前端和后端目录可以保留各自独立的 Git 历史。根仓库用于管理协作文档以及 OpenSpec/Comet 产物。
 
-## Verify
+## 验证
 
 ```powershell
 cd hydrocore-be
@@ -25,12 +25,12 @@ pnpm install
 pnpm run build
 ```
 
-## Agent And IDE Policy
+## Agent 与 IDE 规范
 
-Use global Comet as the only agent workflow entry point for this project. OpenSpec and Comet artifacts live in this repository because they describe product changes. Local agent, IDE, and skill installations should come from the user's global environment.
+本项目只使用全局 Comet 作为 agent 工作流入口。OpenSpec 和 Comet 产物保存在本仓库中，因为它们描述的是产品变更。agent、IDE、skill 的本地安装应来自用户的全局环境。
 
-Do not add repository-local `.agents/`, `.codex/`, `.claude/`, `.cursor/`, or `.github/skills/` copies unless a future change explicitly documents why they are required.
+除非未来变更明确说明原因，否则不要在仓库内新增 `.agents/`、`.codex/`、`.claude/`、`.cursor/` 或 `.github/skills/` 的本地副本。
 
-## Git Policy
+## Git 规范
 
-No code has to be committed until a proper remote repository and branch strategy are ready. When Git is ready, keep one branch name per product change across root, backend, and frontend repositories.
+在远程仓库和分支策略准备好之前，不要求提交代码。Git 准备完成后，根仓库、后端仓库、前端仓库中同一个产品变更应使用一致的分支名称。

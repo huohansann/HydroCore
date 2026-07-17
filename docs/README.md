@@ -1,16 +1,16 @@
-# HydroCore Documentation
+# HydroCore 文档
 
-This root `docs/` directory is for product-level and cross-repository documentation.
+根目录下的 `docs/` 用于存放产品级和跨仓库文档。
 
-## Structure
+## 目录结构
 
-- `superpowers/`: Comet-generated plans, designs, and implementation notes.
-- `product/`: product requirements, workflow notes, and acceptance context.
-- `architecture/`: cross-service architecture, integration, and deployment decisions.
+- `superpowers/`：Comet 生成的计划、设计和实现说明。
+- `product/`：产品需求、工作流说明和验收上下文。
+- `architecture/`：跨服务架构、集成方案和部署决策。
 
-Service-local documents stay with the service repository:
+服务内文档保留在对应服务仓库中：
 
-- `hydrocore-be/docs/`: backend API, database, environment, and deployment docs.
-- `hydrocore-fe/docs/`: frontend components, routes, environment, and deployment docs.
+- `hydrocore-be/docs/`：后端 API、数据库、环境和部署文档。
+- `hydrocore-fe/docs/`：前端组件、路由、环境和部署文档。
 
-OpenSpec and Comet artifacts are repository work products. Local agent, IDE, and skill installs are global user environment concerns and should not be copied into this repository.
+OpenSpec 和 Comet 产物属于仓库工作成果。agent、IDE、skill 的本地安装属于用户全局环境，不应复制到本仓库中。

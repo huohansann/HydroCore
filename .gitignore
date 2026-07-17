@@ -1,0 +1,30 @@
+# Nested Git repositories
+/hydrocore-be/
+/hydrocore-fe/
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Logs and temporary files
+*.log
+tmp/
+.tmp/
+
+# Dependency and build output, if root tooling is added later
+node_modules/
+dist/
+build/
+target/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+
+# Local agent and IDE runtime config
+.agents/
+.codex/
+.claude/
+.cursor/
+.github/skills/

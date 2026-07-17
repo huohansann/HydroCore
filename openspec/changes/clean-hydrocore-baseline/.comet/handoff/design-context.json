@@ -1,0 +1,14 @@
+{
+  "change": "clean-hydrocore-baseline",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "27e94686cc571a644aeeb9e794119b7e628ca2d124dcba99d540897135ae6b47",
+  "files": [
+    { "path": "openspec/changes/clean-hydrocore-baseline/proposal.md", "sha256": "50dc8d6fe9113645b08138a9459f835ea0e0de2058dc1567a019c2d507b72bd7" },
+    { "path": "openspec/changes/clean-hydrocore-baseline/design.md", "sha256": "5b331770642935e42ea1f22a0ebac03d35552852d302aa2214082cbe6fe5e128" },
+    { "path": "openspec/changes/clean-hydrocore-baseline/tasks.md", "sha256": "802b5414abdd38fed6472881d55a02ec394ff7cb0a553069ac707d5ee7529a97" },
+    { "path": "openspec/changes/clean-hydrocore-baseline/specs/baseline-cleanup/spec.md", "sha256": "2456e1bfc6bb2c3e038a5d7278f23209f73fecf60b9c25811a1e72867f9008b3" }
+  ]
+}

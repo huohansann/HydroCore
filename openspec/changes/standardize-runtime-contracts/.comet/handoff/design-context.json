@@ -1,0 +1,14 @@
+{
+  "change": "standardize-runtime-contracts",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "d6cfb3a158e89a91a0968328c6c091b46d267302d77255e91da5a1cff7241b2d",
+  "files": [
+    { "path": "openspec/changes/standardize-runtime-contracts/proposal.md", "sha256": "c02259b57b6d9667ae4381c8bed21f3c84c44facc12354299d325fd99ea1bf0a" },
+    { "path": "openspec/changes/standardize-runtime-contracts/design.md", "sha256": "6a2bde0378a98bf0652f255ad55de668ea7207ea8ab4ca0c48a4d2bfca5f13d3" },
+    { "path": "openspec/changes/standardize-runtime-contracts/tasks.md", "sha256": "3d88b0c5617d45eb83d1837788b739cf967d0d4f91d59b0bf5adae1d86905c3b" },
+    { "path": "openspec/changes/standardize-runtime-contracts/specs/runtime-contracts/spec.md", "sha256": "7f9fecbb823848e2001909e2891197f1ae85f39133c32e90691096f5be24a2ca" }
+  ]
+}

@@ -14,3 +14,7 @@
 - `hydrocore-fe/docs/`：前端组件、路由、环境和部署文档。
 
 OpenSpec 和 Comet 产物属于仓库工作成果。agent、IDE、skill 的本地安装属于用户全局环境，不应复制到本仓库中。
+
+## Git 提交备注纪律
+
+所有 Git commit message 必须使用中文；这是协作纪律，不使用英文提交信息。

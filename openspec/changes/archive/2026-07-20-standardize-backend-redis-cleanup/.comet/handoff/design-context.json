@@ -1,0 +1,15 @@
+{
+  "change": "standardize-backend-redis-cleanup",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "c3c1881aa456c0a1576b15055bcceb419517b0fcd82d7c2f8e3078c39165bd4a",
+  "files": [
+    { "path": "openspec/changes/standardize-backend-redis-cleanup/proposal.md", "sha256": "b81e18f231119c83e7fe78fb3c265e1d0471c8bf93f49f1f69c3784c33e14375" },
+    { "path": "openspec/changes/standardize-backend-redis-cleanup/design.md", "sha256": "ca9d992675baae78f866d2f7357daa92dbd30e876433bc5d5c4b7ee257648559" },
+    { "path": "openspec/changes/standardize-backend-redis-cleanup/tasks.md", "sha256": "31b52342cd66174c5c90523dacd1ff3e7649e3273d7c3ed94f3c034a99737a04" },
+    { "path": "openspec/changes/standardize-backend-redis-cleanup/specs/backend-redis-management/spec.md", "sha256": "55b617c4758e1c5b1538e2fce9d308a1980d5919cfd9cf7dbaa085943783e38c" },
+    { "path": "openspec/changes/standardize-backend-redis-cleanup/specs/runtime-contracts/spec.md", "sha256": "68f89e1b01b378715eeeb72a760dde2dcabffb671478f89f72b6cd98ae9bb9ee" }
+  ]
+}

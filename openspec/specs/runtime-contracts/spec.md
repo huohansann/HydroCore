@@ -2,7 +2,6 @@
 
 ## Purpose
 定义 HydroCore 前后端运行时契约，包括统一 API 响应信封、前端 HTTP 适配、后端线程池、结构化日志和验证门禁，避免后续二开期间出现响应结构、错误处理和运行配置漂移。
-
 ## Requirements
 ### Requirement: Unified API response envelope
 HydroCore backend APIs SHALL expose one canonical JSON response envelope for normal and error responses. The envelope MUST include `success`, `code`, `message`, `data`, and `traceId` fields with stable semantics. Frontend-facing backend API entry points SHALL return `ApiResponse<T>` directly. The codebase MUST not use `common.R`, `common.result.R`, or `com.siact.hydrocore.common.entity.ResponseEntity` in controllers, exception handlers, or security handlers for frontend responses. Upstream Feign types such as `com.siact.api...R` remain allowed only in integration code and are not frontend API return types.
@@ -90,3 +89,15 @@ The change implementation SHALL include verification that protects the runtime c
 #### Scenario: Frontend verification
 - **WHEN** frontend verification runs
 - **THEN** it covers successful envelope unwrapping, failed envelope rejection, transport error mapping, and the production build
+
+### Requirement: No legacy backend ResultCode contract
+HydroCore backend SHALL use `com.siact.hydrocore.common.api.ApiResponseCode` as the canonical REST response code source. The legacy `com.siact.hydrocore.common.result.ResultCode` and `IErrorCode` types MUST NOT remain in production code after they are confirmed unused, and they MUST NOT be reintroduced as frontend-facing API error code contracts.
+
+#### Scenario: Legacy result code types are absent
+- **WHEN** backend production source is scanned after the cleanup
+- **THEN** `com.siact.hydrocore.common.result.ResultCode` and `com.siact.hydrocore.common.result.IErrorCode` are absent
+
+#### Scenario: API responses continue to use ApiResponseCode
+- **WHEN** controllers, exception handlers, or security handlers construct REST response envelopes
+- **THEN** they continue to use `ApiResponse<T>` and `ApiResponseCode` semantics rather than legacy result-code types
+

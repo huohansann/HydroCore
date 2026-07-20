@@ -1,0 +1,9 @@
+{
+  "openspec_proposal": "openspec/changes/standardize-backend-redis-cleanup/proposal.md",
+  "openspec_design": "openspec/changes/standardize-backend-redis-cleanup/design.md",
+  "openspec_tasks": "openspec/changes/standardize-backend-redis-cleanup/tasks.md",
+  "openspec_delta_spec": "openspec/changes/standardize-backend-redis-cleanup/specs/backend-redis-management/spec.md",
+  "handoff_context": "openspec/changes/standardize-backend-redis-cleanup/.comet/handoff/design-context.json",
+  "handoff_markdown": "openspec/changes/standardize-backend-redis-cleanup/.comet/handoff/design-context.md",
+  "archive_directory": "openspec/changes/archive/2026-07-20-standardize-backend-redis-cleanup"
+}

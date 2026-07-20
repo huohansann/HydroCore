@@ -60,32 +60,68 @@ Get-ChildItem -Force openspec
 | `hydrocore-fe/node_modules/` | 依赖安装目录 | 不手工编辑，不纳入整改提交 |
 | `hydrocore-be/.claude/`、`hydrocore-be/.cursor/`、`hydrocore-be/.idea/` | IDE/agent 本地配置候选 | 后续 Task 4 核对 Git 跟踪和策略冲突 |
 
+### 后端扫描证据
+
+已运行命令：
+
+```powershell
+rg -n -i "kiln|forecast|pressure|predict|temperature|control|legacy|deprecated|TODO|FIXME|占位|兼容" hydrocore-be\src hydrocore-be\docs hydrocore-be\pom.xml -g "!target/**"
+rg -n "class ConvertUtils|class JacksonUtils|sourceToTarget|queryForecastIntervalVal|System\.out\.println|printStackTrace" hydrocore-be\src -g "!target/**"
+rg -n "com\.siact\.hydrocore\.sec\.utils\.ConvertUtils|sec\.utils\.ConvertUtils|import .*ConvertUtils|ConvertUtils\." hydrocore-be\src\main\java -g "!target/**"
+rg -n "JacksonUtils|ClassConvertor2DTO|UnitConversion|JepUtils|SshUtils|OkHttpUtil|MapUtils" hydrocore-be\src\main\java hydrocore-be\src\test\java -g "!target/**"
+rg -n "class CachePreloader|CachePreloader|FiveBaseVo" hydrocore-be\src\main\java hydrocore-be\src\test\java
+rg -n "TODO|FIXME" hydrocore-be\src\main\java hydrocore-be\src\test\java hydrocore-be\docs hydrocore-be\pom.xml -g "!target/**"
+```
+
+后端关键证据：
+
+| 发现 | 分类 | 证据 | 当前处理 |
+|---|---|---|---|
+| `hydrocore-be/src/main/java/com/siact/hydrocore/config/CachePreloader.java` | 已清理 | 文件内全部业务代码均已注释，引用扫描只命中自身，并引用旧 `module.permission` 命名 | 删除该空壳源文件 |
+| `hydrocore-be/src/main/java/com/siact/hydrocore/sec/vo/FiveBaseVo.java` | 已清理 | 存在已注释的 `@Pattern` 校验和对应未使用 import，容易误导后续维护者以为时间格式已启用严格校验 | 删除注释代码和未使用 import，不改变运行行为 |
+| `hydrocore-be/src/main/java/com/siact/hydrocore/sec/utils/CommonHandle.java` | 已清理 | 存在旧聚合实现注释，当前逻辑使用首个时间点值；注释会误导后续维护者 | 删除注释代码，不改变运行行为 |
+| `sec.utils.ConvertUtils` 与 `common.utils.ConvertUtils` | 建议优化 | 两个类名称和大部分方法重复，但引用扫描显示 `sec` 兼容服务仍直接引用 `sec.utils.ConvertUtils`，`common` 被基础模块引用 | 本轮不合并；建议后续 change 统一转换工具语义 |
+| `queryForecastIntervalVal` | 保留例外 | `tdengine` 与 `sec` 服务接口和实现仍存在，并已有兼容说明；属于外部数据 API 兼容路径 | 不删除，不新增预测业务能力 |
+| `hydrocore_menu_migrate.sql` 中 kiln 文案 | 保留例外 | 仅出现在迁移脚本注释和历史角色清理 SQL，用于旧安装迁移 | 不删除，保留历史迁移语义 |
+| `hydrocore_schema.sql` 集成端点占位 | 保留例外 | 占位值为本地二开集成端点，不包含生产地址 | 不删除，后续如引入真实集成能力需独立 change |
+| `System.out.println` / `printStackTrace` | 已验证 | 仅静态扫描测试的 forbidden 列表命中，运行时代码未命中 | 无需整改 |
+
 ## 必须修复
 
 当前阶段未发现已确认必须修复项。
 
 ## 建议优化
 
-待后端、前端和文档扫描后补充。
+- 后续统一 `sec.utils.ConvertUtils` 与 `common.utils.ConvertUtils` 的职责边界；当前两个类均有运行引用，本轮不做行为合并。
 
 ## 可删除候选
 
-待引用扫描和生成物属性核对后补充。
+- `hydrocore-be/src/main/java/com/siact/hydrocore/config/CachePreloader.java`：已删除。证据为文件内无可编译类、引用扫描只命中自身、内容指向旧权限缓存预加载。
 
 ## 保留例外
 
-待兼容入口、本地配置和历史产物核对后补充。
+- `queryForecastIntervalVal`：作为外部数据 API 兼容路径保留，不作为 HydroCore 基线预测业务能力。
+- `hydrocore_menu_migrate.sql` 中 kiln 迁移注释和角色清理 SQL：作为旧安装迁移语义保留。
+- `hydrocore_schema.sql` 中本地集成端点占位：不包含生产地址，作为二开集成模板保留。
 
 ## 后续 OpenSpec/Comet change 候选
 
-待审计发现分类后补充。涉及 public API、数据库 schema、新业务能力或架构级调整的事项只进入本章节，不在当前 change 内实现。
+- 转换工具统一：评估并收敛 `sec.utils.ConvertUtils` 与 `common.utils.ConvertUtils` 的空集合语义、异常日志和包边界。该事项可能影响兼容服务，需独立 change。
+- 兼容数据 API 去留策略：评估 `sec` / `tdengine` 中外部数据 API 兼容路径的生命周期，涉及 public API 时必须独立 change。
 
 ## 前后端源码整改记录
 
-待 Task 2 和 Task 3 执行后补充。
+### 后端
+
+| 路径 | 动作 | 风险控制 |
+|---|---|---|
+| `hydrocore-be/src/main/java/com/siact/hydrocore/config/CachePreloader.java` | 删除空壳旧缓存预加载文件 | 无可编译类，引用扫描只命中自身 |
+| `hydrocore-be/src/main/java/com/siact/hydrocore/sec/vo/FiveBaseVo.java` | 删除已注释的校验注解和未使用 import | 不改变字段、注解生效范围或 API 契约 |
+| `hydrocore-be/src/main/java/com/siact/hydrocore/sec/utils/CommonHandle.java` | 删除旧聚合逻辑注释 | 不改变当前聚合实现 |
 
 ## 验证记录
 
 | 时间 | 命令 | 目录 | 结果 | 备注 |
 |---|---|---|---|---|
 | 2026-07-20 | `git status --short` | 仓库根目录 | 通过 | 仅 `.comet/` 为本地未跟踪状态 |
+| 2026-07-20 | `mvn.cmd -q test` | `hydrocore-be` | 通过 | 后端低风险清理后测试通过 |

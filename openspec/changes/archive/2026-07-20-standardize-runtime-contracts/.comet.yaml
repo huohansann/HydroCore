@@ -16,13 +16,13 @@ plan: docs/superpowers/plans/2026-07-17-standardize-runtime-contracts.md
 verify_result: pass
 verify_failures: 0
 verification_report: docs/superpowers/reports/2026-07-17-standardize-runtime-contracts-verify.md
-branch_status: pending
+branch_status: handled
 created_at: 2026-07-17
 verified_at: 2026-07-17
-archive_confirmation: pending
-archived: false
+archive_confirmation: confirmed
+archived: true
 direct_override: null
-handoff_context: openspec/changes/standardize-runtime-contracts/.comet/handoff/design-context.json
+handoff_context: openspec/changes/archive/2026-07-20-standardize-runtime-contracts/.comet/handoff/design-context.json
 handoff_hash: d6cfb3a158e89a91a0968328c6c091b46d267302d77255e91da5a1cff7241b2d
 classic_profile: full
 classic_migration: 1

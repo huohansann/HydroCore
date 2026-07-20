@@ -2,6 +2,8 @@
 comet_change: standardize-runtime-contracts
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-20-standardize-runtime-contracts
+status: final
 ---
 
 # Standardize Runtime Contracts Design

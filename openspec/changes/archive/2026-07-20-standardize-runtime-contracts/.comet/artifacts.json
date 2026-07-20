@@ -4,5 +4,6 @@
   "openspec_tasks": "openspec/changes/standardize-runtime-contracts/tasks.md",
   "openspec_delta_spec": "openspec/changes/standardize-runtime-contracts/specs/runtime-contracts/spec.md",
   "handoff_context": "openspec/changes/standardize-runtime-contracts/.comet/handoff/design-context.json",
-  "handoff_markdown": "openspec/changes/standardize-runtime-contracts/.comet/handoff/design-context.md"
+  "handoff_markdown": "openspec/changes/standardize-runtime-contracts/.comet/handoff/design-context.md",
+  "archive_directory": "openspec/changes/archive/2026-07-20-standardize-runtime-contracts"
 }

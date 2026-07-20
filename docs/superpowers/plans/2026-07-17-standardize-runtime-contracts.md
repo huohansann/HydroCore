@@ -2,6 +2,7 @@
 change: standardize-runtime-contracts
 design-doc: docs/superpowers/specs/2026-07-17-standardize-runtime-contracts-design.md
 base-ref: unborn-head
+archived-with: 2026-07-20-standardize-runtime-contracts
 ---
 
 # Standardize Runtime Contracts Implementation Plan

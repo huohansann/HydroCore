@@ -16,13 +16,13 @@ plan: docs/superpowers/plans/2026-07-17-clean-hydrocore-baseline.md
 verify_result: pass
 verify_failures: 0
 verification_report: docs/superpowers/reports/2026-07-17-clean-hydrocore-baseline-verify.md
-branch_status: pending
+branch_status: handled
 created_at: 2026-07-17
 verified_at: 2026-07-17
 archive_confirmation: confirmed
 archived: true
 direct_override: null
-handoff_context: openspec/changes/clean-hydrocore-baseline/.comet/handoff/design-context.json
+handoff_context: openspec/changes/archive/2026-07-20-clean-hydrocore-baseline/.comet/handoff/design-context.json
 handoff_hash: 27e94686cc571a644aeeb9e794119b7e628ca2d124dcba99d540897135ae6b47
 classic_profile: full
 classic_migration: 1

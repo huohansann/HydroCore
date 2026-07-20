@@ -1,0 +1,14 @@
+{
+  "change": "audit-project-baseline",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "50a8de31775e8135ce55a4eeb8ca189bcc4fbbb286c15f41aad448e09cdcc618",
+  "files": [
+    { "path": "openspec/changes/audit-project-baseline/proposal.md", "sha256": "5c141a5b0d2e7520e33a78553aebe1ffb9de791fcd6ab998598dfd90e1232aac" },
+    { "path": "openspec/changes/audit-project-baseline/design.md", "sha256": "6416f2f47c973997146d17d93093cbae0192311f24b43735041aac575ddf481f" },
+    { "path": "openspec/changes/audit-project-baseline/tasks.md", "sha256": "305a0bda37262ba38dc1a7997428d73ade05e1ea599ea27ded3e102f6f1879ce" },
+    { "path": "openspec/changes/audit-project-baseline/specs/project-baseline-audit/spec.md", "sha256": "e1477f7ba97c9ea9dfe26311435947b76aac6bfa2b3a0fafaea525b791449cd3" }
+  ]
+}

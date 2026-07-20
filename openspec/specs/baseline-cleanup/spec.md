@@ -2,7 +2,6 @@
 
 ## Purpose
 定义 HydroCore 清理后的基线边界，确保默认源码、初始化数据、文档和协作配置不再暴露旧项目业务语义，并为后续水处理二开提供可验证、可扩展的通用底座。
-
 ## Requirements
 ### Requirement: Clean baseline business semantics
 HydroCore 作为水处理二开基线时 SHALL 不在默认源码、初始化脚本、环境模板和用户可见文档中暴露旧窑炉、液位、压力、预测等项目语义，除非文档明确标记为历史迁移说明。
@@ -77,3 +76,15 @@ HydroCore 作为水处理二开基线时 SHALL 不在默认源码、初始化脚
 #### Scenario: Comet remains callable globally
 - **WHEN** 开发者在仓库中调用 Comet workflow
 - **THEN** Comet/OpenSpec MUST 通过全局安装和仓库 `openspec/` artifact 工作，而不依赖重复的仓库本地 skills 副本
+
+### Requirement: No confirmed unused backend production classes
+HydroCore backend production source SHALL NOT retain Java classes that have been confirmed unused by static reference checks, framework entry-point checks, and backend build verification.
+
+#### Scenario: Confirmed unused backend classes are removed
+- **WHEN** 后端源码清理确认某个生产类不存在静态引用，且不属于 Spring、MyBatis、配置、序列化或反射加载入口
+- **THEN** 该类 MUST 被删除，或在变更记录中说明保留原因
+
+#### Scenario: Backend remains verifiable after class removal
+- **WHEN** 删除确认无用的后端生产类后运行后端验证
+- **THEN** Maven 测试 MUST 通过，或失败原因 MUST 被记录为阻塞并在完成前修复
+

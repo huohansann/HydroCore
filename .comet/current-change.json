@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "change": "standardize-runtime-contracts",
+  "change": "remove-legacy-api-response-types",
   "branch": "feature-20260717-standardize-runtime-contracts"
 }

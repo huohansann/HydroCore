@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-07-20
+goal: Delete old API return wrappers used by frontend-facing controllers and
+  handlers; keep Feign response types unchanged.

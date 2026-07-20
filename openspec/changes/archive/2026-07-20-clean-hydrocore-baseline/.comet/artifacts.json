@@ -4,5 +4,6 @@
   "openspec_tasks": "openspec/changes/clean-hydrocore-baseline/tasks.md",
   "openspec_delta_spec": "openspec/changes/clean-hydrocore-baseline/specs/baseline-cleanup/spec.md",
   "handoff_context": "openspec/changes/clean-hydrocore-baseline/.comet/handoff/design-context.json",
-  "handoff_markdown": "openspec/changes/clean-hydrocore-baseline/.comet/handoff/design-context.md"
+  "handoff_markdown": "openspec/changes/clean-hydrocore-baseline/.comet/handoff/design-context.md",
+  "archive_directory": "openspec/changes/archive/2026-07-20-clean-hydrocore-baseline"
 }

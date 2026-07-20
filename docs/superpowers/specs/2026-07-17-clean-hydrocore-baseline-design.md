@@ -2,6 +2,8 @@
 comet_change: clean-hydrocore-baseline
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-20-clean-hydrocore-baseline
+status: final
 ---
 
 # Clean HydroCore Baseline 技术设计

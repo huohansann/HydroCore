@@ -2,6 +2,7 @@
 change: audit-project-baseline
 design-doc: docs/superpowers/specs/2026-07-20-audit-project-baseline-design.md
 base-ref: e0dbc9dea87198f0676a5db2860acef73dc375d4
+archived-with: 2026-07-20-audit-project-baseline
 ---
 
 # 项目基线审计实施计划

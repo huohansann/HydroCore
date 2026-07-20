@@ -2,6 +2,8 @@
 comet_change: audit-project-baseline
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-20-audit-project-baseline
+status: final
 ---
 
 # audit-project-baseline 技术设计

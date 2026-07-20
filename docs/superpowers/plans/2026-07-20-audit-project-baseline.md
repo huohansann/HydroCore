@@ -48,7 +48,7 @@ base-ref: e0dbc9dea87198f0676a5db2860acef73dc375d4
 - 输入：Design Doc、OpenSpec delta spec、当前 Git 状态。
 - 输出：报告初稿，包含扫描命令、仓库入口清单和初始发现表。
 
-- [ ] **Step 1：记录当前 Git 状态**
+- [x] **Step 1：记录当前 Git 状态**
 
 运行：
 
@@ -60,7 +60,7 @@ git branch --show-current
 
 预期：只允许出现当前 change 的计划/报告修改；如果出现无关文件，先按 dirty worktree 协议归因。
 
-- [ ] **Step 2：创建报告骨架**
+- [x] **Step 2：创建报告骨架**
 
 创建 `docs/superpowers/reports/2026-07-20-audit-project-baseline-report.md`，内容结构如下：
 
@@ -95,7 +95,7 @@ git branch --show-current
 ## 验证记录
 ```
 
-- [ ] **Step 3：记录仓库入口清单**
+- [x] **Step 3：记录仓库入口清单**
 
 运行：
 
@@ -109,7 +109,7 @@ Get-ChildItem -Force openspec
 
 把与审计相关的目录记录到报告的“扫描命令与证据”章节。
 
-- [ ] **Step 4：提交 Task 1**
+- [x] **Step 4：提交 Task 1**
 
 运行：
 
@@ -128,7 +128,7 @@ git commit -m "审计：建立项目基线证据"
 - 输入：后端扫描结果。
 - 输出：后端发现分类、低风险整改、保留例外和后续 change 候选。
 
-- [ ] **Step 1：扫描后端旧业务和可疑兼容入口**
+- [x] **Step 1：扫描后端旧业务和可疑兼容入口**
 
 运行：
 
@@ -138,7 +138,7 @@ rg -n -i "kiln|forecast|pressure|predict|temperature|control|legacy|deprecated|T
 
 将结果分类写入报告。迁移脚本、外部兼容方法和日志级别中的普通 `level` 不直接删除，先记录保留理由。
 
-- [ ] **Step 2：扫描后端重复工具和潜在无引用代码**
+- [x] **Step 2：扫描后端重复工具和潜在无引用代码**
 
 运行：
 
@@ -148,7 +148,7 @@ rg -n "class ConvertUtils|class JacksonUtils|sourceToTarget|queryForecastInterva
 
 对每个候选再运行按符号名的引用扫描。无足够证据时写入“建议优化”或“后续 change 候选”，不得删除。
 
-- [ ] **Step 3：执行低风险后端整改**
+- [x] **Step 3：执行低风险后端整改**
 
 只允许执行满足以下条件的修改：
 
@@ -158,7 +158,7 @@ rg -n "class ConvertUtils|class JacksonUtils|sourceToTarget|queryForecastInterva
 
 如果没有满足条件的后端整改项，在报告中写“本轮无可安全直接修改项”。
 
-- [ ] **Step 4：运行后端验证**
+- [x] **Step 4：运行后端验证**
 
 运行：
 
@@ -168,7 +168,7 @@ mvn.cmd -q test
 
 工作目录：`hydrocore-be`。将结果写入报告“验证记录”。
 
-- [ ] **Step 5：提交 Task 2**
+- [x] **Step 5：提交 Task 2**
 
 运行：
 
@@ -189,7 +189,7 @@ git commit -m "审计：完成后端基线整改"
 - 输入：前端扫描结果。
 - 输出：前端发现分类、低风险整改、保留例外和后续 change 候选。
 
-- [ ] **Step 1：扫描前端旧业务和占位入口**
+- [x] **Step 1：扫描前端旧业务和占位入口**
 
 运行：
 
@@ -199,7 +199,7 @@ rg -n -i "kiln|forecast|pressure|predict|temperature|control|legacy|deprecated|T
 
 将结果分类写入报告。图标元数据、HTTP 状态码 deprecated 注释、兼容占位页必须先判断是否仍被路由或菜单引用。
 
-- [ ] **Step 2：扫描前端无引用入口**
+- [x] **Step 2：扫描前端无引用入口**
 
 运行：
 
@@ -209,7 +209,7 @@ rg -n "system/debug|views/system/debug|components/slider|components/setTable|ico
 
 对每个候选再运行引用扫描。无引用且不属于公共组件库入口时，记录为可删除候选或执行低风险删除。
 
-- [ ] **Step 3：执行低风险前端整改**
+- [x] **Step 3：执行低风险前端整改**
 
 只允许执行满足以下条件的修改：
 
@@ -220,7 +220,7 @@ rg -n "system/debug|views/system/debug|components/slider|components/setTable|ico
 
 如果没有满足条件的前端整改项，在报告中写“本轮无可安全直接修改项”。
 
-- [ ] **Step 4：运行前端验证**
+- [x] **Step 4：运行前端验证**
 
 运行：
 
@@ -230,7 +230,7 @@ pnpm.cmd run build
 
 工作目录：`hydrocore-fe`。将结果写入报告“验证记录”。
 
-- [ ] **Step 5：提交 Task 3**
+- [x] **Step 5：提交 Task 3**
 
 运行：
 
@@ -251,7 +251,7 @@ git commit -m "审计：完成前端基线整改"
 - 输入：文档与配置扫描结果。
 - 输出：入口文档整改、保留例外和后续 change 候选。
 
-- [ ] **Step 1：扫描当前入口文档可读性和策略冲突**
+- [x] **Step 1：扫描当前入口文档可读性和策略冲突**
 
 运行：
 
@@ -261,7 +261,7 @@ rg -n -i "乱码|TBD|TODO|kiln|forecast|pressure|predict|\\.claude|\\.cursor|\\.
 
 当前入口文档如存在乱码或误导性边界描述，修正文档。历史 `docs/superpowers/**` 默认作为历史记录，不批量重写。
 
-- [ ] **Step 2：扫描本地配置目录**
+- [x] **Step 2：扫描本地配置目录**
 
 运行：
 
@@ -272,7 +272,7 @@ git status --short -- .comet hydrocore-be/.claude hydrocore-be/.cursor hydrocore
 
 把本地状态、IDE 配置和策略冲突记录到报告。删除前必须确认这些目录是否被 Git 跟踪、是否属于用户本地状态。
 
-- [ ] **Step 3：运行 OpenSpec 校验**
+- [x] **Step 3：运行 OpenSpec 校验**
 
 运行：
 
@@ -283,7 +283,7 @@ openspec.cmd status --change audit-project-baseline --json
 
 把结果写入报告。
 
-- [ ] **Step 4：提交 Task 4**
+- [x] **Step 4：提交 Task 4**
 
 运行：
 
@@ -304,7 +304,7 @@ git commit -m "审计：完成文档与配置核对"
 - 输入：前四个任务的提交和验证结果。
 - 输出：最终审计结论、全部 tasks 勾选、build guard 通过。
 
-- [ ] **Step 1：汇总报告结论**
+- [x] **Step 1：汇总报告结论**
 
 更新报告摘要表，填入最终数量和结论：
 
@@ -315,7 +315,7 @@ git commit -m "审计：完成文档与配置核对"
 - 保留例外数量。
 - 后续 change 候选数量。
 
-- [ ] **Step 2：运行完整验证**
+- [x] **Step 2：运行完整验证**
 
 运行：
 
@@ -328,11 +328,11 @@ git status --short
 
 Maven 命令在 `hydrocore-be` 下运行；pnpm 命令在 `hydrocore-fe` 下运行；OpenSpec 和 Git 命令在仓库根目录运行。
 
-- [ ] **Step 3：勾选 OpenSpec tasks**
+- [x] **Step 3：勾选 OpenSpec tasks**
 
 确认 `openspec/changes/audit-project-baseline/tasks.md` 中所有任务都已完成后，将 checkbox 改为 `[x]`。
 
-- [ ] **Step 4：提交 Task 5**
+- [x] **Step 4：提交 Task 5**
 
 运行：
 
@@ -341,7 +341,7 @@ git add docs/superpowers/reports/2026-07-20-audit-project-baseline-report.md ope
 git commit -m "审计：完成项目基线审计"
 ```
 
-- [ ] **Step 5：运行 build guard**
+- [x] **Step 5：运行 build guard**
 
 运行：
 

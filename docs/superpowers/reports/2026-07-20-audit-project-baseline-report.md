@@ -20,6 +20,7 @@
 | 当前分支 | `feature/20260720/audit-project-baseline` |
 | 当前 HEAD | `ce10aa0cff99452fada528cc324f864bafcb035b` |
 | 工作区状态 | 仅存在根目录本地 `.comet/` 未跟踪状态文件；不纳入提交 |
+| 仓库纪律 | `hydrocore-be`、`hydrocore-fe`、文档/Comet 分别作为独立 Git 仓库管理 |
 
 已运行命令：
 
@@ -86,6 +87,31 @@ rg -n "TODO|FIXME" hydrocore-be\src\main\java hydrocore-be\src\test\java hydroco
 | `hydrocore_schema.sql` 集成端点占位 | 保留例外 | 占位值为本地二开集成端点，不包含生产地址 | 不删除，后续如引入真实集成能力需独立 change |
 | `System.out.println` / `printStackTrace` | 已验证 | 仅静态扫描测试的 forbidden 列表命中，运行时代码未命中 | 无需整改 |
 
+### 前端扫描证据
+
+已运行命令：
+
+```powershell
+rg -n -i "kiln|forecast|pressure|predict|temperature|control|legacy|deprecated|TODO|FIXME|Placeholder|占位|调试" hydrocore-fe\src hydrocore-fe\docs hydrocore-fe\package.json -g "!node_modules/**" -g "!dist/**"
+rg -n "system/debug|views/system/debug|components/slider|components/setTable|icon-park-twotone:water-level" hydrocore-fe\src hydrocore-fe\iconify.ts -g "!node_modules/**" -g "!dist/**"
+rg -n "SYSTEM_DEBUG|system\.debug|views/system/debug|debug\.vue|components/setTable|components/slider|SetTable|Slider" hydrocore-fe\src hydrocore-fe\components.d.ts -g "!node_modules/**" -g "!dist/**"
+rg -n "water-level|windmill|control-filled|package-box" hydrocore-be\src hydrocore-fe\src hydrocore-fe\iconify.ts -g "!target/**" -g "!node_modules/**" -g "!dist/**"
+pnpm.cmd run build
+```
+
+前端关键证据：
+
+| 发现 | 分类 | 证据 | 当前处理 |
+|---|---|---|---|
+| `src/views/system/debug.vue` | 已清理 | 文件是移除后遗留占位页且内容乱码；系统路由未注册该页面；引用扫描未发现外部引用 | 删除占位页 |
+| `RouteName.SYSTEM_DEBUG` | 已清理 | 仅常量定义处命中，无路由或菜单代码引用 | 删除遗留常量 |
+| `src/components/slider/**` | 已清理 | 引用扫描只命中组件自身；组件含大量旧交互代码和注释，没有当前页面引用 | 删除遗留组件 |
+| `src/components/setTable/**` | 已清理 | 引用扫描只命中组件自身；组件含明显乱码文案，没有当前页面引用 | 删除遗留组件 |
+| `components.d.ts` 中遗留声明 | 已同步本地生成物 | 构建声明文件为忽略的生成物；删除组件后本地已移除 stale 声明，不强制纳入 Git | 不提交生成声明文件 |
+| `iconify.ts` 中 `water-level` 等动态图标 | 保留例外 | 当前源码无静态引用，但图标转换插件会为动态菜单图标建立资源池，菜单图标可由后端数据驱动 | 不删除 |
+| `HttpStatus.ts` deprecated 注释 | 保留例外 | 为 HTTP 语义常量注释，不代表旧业务功能 | 不删除 |
+| `overview` 占位文案 | 保留例外 | 明确说明一期占位和后续工艺监控接入边界，不是误导性旧页面 | 不删除 |
+
 ## 必须修复
 
 当前阶段未发现已确认必须修复项。
@@ -93,16 +119,22 @@ rg -n "TODO|FIXME" hydrocore-be\src\main\java hydrocore-be\src\test\java hydroco
 ## 建议优化
 
 - 后续统一 `sec.utils.ConvertUtils` 与 `common.utils.ConvertUtils` 的职责边界；当前两个类均有运行引用，本轮不做行为合并。
+- 前端自动生成声明文件 `components.d.ts` 当前被 `.gitignore` 忽略；如团队希望提交该文件，应独立明确生成物纳入策略。
 
 ## 可删除候选
 
 - `hydrocore-be/src/main/java/com/siact/hydrocore/config/CachePreloader.java`：已删除。证据为文件内无可编译类、引用扫描只命中自身、内容指向旧权限缓存预加载。
+- `hydrocore-fe/src/views/system/debug.vue`：已删除。证据为路由未注册、引用扫描无外部引用、内容为乱码占位。
+- `hydrocore-fe/src/components/slider/**`：已删除。证据为引用扫描无外部引用。
+- `hydrocore-fe/src/components/setTable/**`：已删除。证据为引用扫描无外部引用且包含乱码文案。
 
 ## 保留例外
 
 - `queryForecastIntervalVal`：作为外部数据 API 兼容路径保留，不作为 HydroCore 基线预测业务能力。
 - `hydrocore_menu_migrate.sql` 中 kiln 迁移注释和角色清理 SQL：作为旧安装迁移语义保留。
 - `hydrocore_schema.sql` 中本地集成端点占位：不包含生产地址，作为二开集成模板保留。
+- `hydrocore-fe/iconify.ts` 中动态图标池：为后端菜单数据驱动图标预注册资源，源码无静态引用不等于可删除。
+- `hydrocore-fe/src/views/overview/route.tsx` 中一期占位文案：表达当前基线边界，保留。
 
 ## 后续 OpenSpec/Comet change 候选
 
@@ -119,9 +151,19 @@ rg -n "TODO|FIXME" hydrocore-be\src\main\java hydrocore-be\src\test\java hydroco
 | `hydrocore-be/src/main/java/com/siact/hydrocore/sec/vo/FiveBaseVo.java` | 删除已注释的校验注解和未使用 import | 不改变字段、注解生效范围或 API 契约 |
 | `hydrocore-be/src/main/java/com/siact/hydrocore/sec/utils/CommonHandle.java` | 删除旧聚合逻辑注释 | 不改变当前聚合实现 |
 
+### 前端
+
+| 路径 | 动作 | 风险控制 |
+|---|---|---|
+| `hydrocore-fe/src/views/system/debug.vue` | 删除未注册乱码占位页 | 系统路由未注册，引用扫描无外部引用 |
+| `hydrocore-fe/src/constants/RouteName.ts` | 删除 `SYSTEM_DEBUG` 遗留常量 | 引用扫描只命中定义处 |
+| `hydrocore-fe/src/components/slider/**` | 删除无引用遗留滑块组件 | 引用扫描无外部引用，构建通过 |
+| `hydrocore-fe/src/components/setTable/**` | 删除无引用遗留设置表格组件 | 引用扫描无外部引用，构建通过 |
+
 ## 验证记录
 
 | 时间 | 命令 | 目录 | 结果 | 备注 |
 |---|---|---|---|---|
 | 2026-07-20 | `git status --short` | 仓库根目录 | 通过 | 仅 `.comet/` 为本地未跟踪状态 |
 | 2026-07-20 | `mvn.cmd -q test` | `hydrocore-be` | 通过 | 后端低风险清理后测试通过 |
+| 2026-07-20 | `pnpm.cmd run build` | `hydrocore-fe` | 通过 | 前端遗留入口删除后构建通过；重复运行后仍通过 |

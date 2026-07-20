@@ -112,6 +112,32 @@ pnpm.cmd run build
 | `HttpStatus.ts` deprecated 注释 | 保留例外 | 为 HTTP 语义常量注释，不代表旧业务功能 | 不删除 |
 | `overview` 占位文案 | 保留例外 | 明确说明一期占位和后续工艺监控接入边界，不是误导性旧页面 | 不删除 |
 
+### 文档、OpenSpec 和本地配置证据
+
+已运行命令：
+
+```powershell
+rg -n -i "乱码|TBD|TODO|kiln|forecast|pressure|predict|\.claude|\.cursor|\.agents|\.codex|node_modules|target|dist" README.md docs hydrocore-be\docs hydrocore-fe\docs openspec\specs -g "!docs/superpowers/**"
+Get-ChildItem -Force .comet,hydrocore-be\.claude,hydrocore-be\.cursor,hydrocore-be\.idea -ErrorAction SilentlyContinue
+git status --short -- .comet
+git status --short -- .claude .cursor .idea
+openspec.cmd validate audit-project-baseline --strict
+openspec.cmd status --change audit-project-baseline --json
+rg -n -i "TBD|TODO|乱码" README.md docs hydrocore-be\docs hydrocore-fe\docs openspec\specs -g "!docs/superpowers/**"
+```
+
+文档和配置关键证据：
+
+| 发现 | 分类 | 证据 | 当前处理 |
+|---|---|---|---|
+| `openspec/specs/baseline-cleanup/spec.md` Purpose 为归档 `TBD` | 已清理 | 文档扫描命中 `TBD - created by archiving...` | 改为中文目的说明 |
+| `openspec/specs/runtime-contracts/spec.md` Purpose 为归档 `TBD` | 已清理 | 文档扫描命中 `TBD - created by archiving...` | 改为中文目的说明 |
+| 根 README 对独立仓库边界表述不够强 | 已清理 | 原文为“可以保留各自独立 Git 历史” | 明确 `hydrocore-be`、`hydrocore-fe`、文档/Comet 是三个独立 Git 仓库 |
+| 根目录 `.comet/` | 保留例外 | `git status --short -- .comet` 显示未跟踪本地状态 | 不提交 |
+| 后端 `.cursor/`、`.idea/` | 保留例外 | 后端 `.gitignore` 已忽略；后端 Git 状态未显示跟踪变更 | 作为用户本地 IDE/agent 状态保留，不删除 |
+| OpenSpec change 校验 | 已验证 | `openspec.cmd validate audit-project-baseline --strict` 通过 | 记录验证结果 |
+| `TBD/TODO/乱码` 二次扫描 | 已验证 | 二次扫描无命中 | 当前入口文档无已知占位或乱码 |
+
 ## 必须修复
 
 当前阶段未发现已确认必须修复项。
@@ -135,6 +161,8 @@ pnpm.cmd run build
 - `hydrocore_schema.sql` 中本地集成端点占位：不包含生产地址，作为二开集成模板保留。
 - `hydrocore-fe/iconify.ts` 中动态图标池：为后端菜单数据驱动图标预注册资源，源码无静态引用不等于可删除。
 - `hydrocore-fe/src/views/overview/route.tsx` 中一期占位文案：表达当前基线边界，保留。
+- 根目录 `.comet/`：Comet 本地选择状态，不提交。
+- 后端 `.cursor/`、`.idea/`：后端仓库已忽略的用户本地配置，不提交、不删除。
 
 ## 后续 OpenSpec/Comet change 候选
 
@@ -167,3 +195,6 @@ pnpm.cmd run build
 | 2026-07-20 | `git status --short` | 仓库根目录 | 通过 | 仅 `.comet/` 为本地未跟踪状态 |
 | 2026-07-20 | `mvn.cmd -q test` | `hydrocore-be` | 通过 | 后端低风险清理后测试通过 |
 | 2026-07-20 | `pnpm.cmd run build` | `hydrocore-fe` | 通过 | 前端遗留入口删除后构建通过；重复运行后仍通过 |
+| 2026-07-20 | `openspec.cmd validate audit-project-baseline --strict` | 文档/Comet 仓库根目录 | 通过 | 当前 OpenSpec change 有效 |
+| 2026-07-20 | `openspec.cmd status --change audit-project-baseline --json` | 文档/Comet 仓库根目录 | 通过 | planning artifacts 完整，`isComplete=true` |
+| 2026-07-20 | `rg -n -i "TBD|TODO|乱码" ...` | 文档/Comet 仓库根目录 | 通过 | 二次扫描无命中 |

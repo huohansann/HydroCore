@@ -1,7 +1,8 @@
 # baseline-cleanup Specification
 
 ## Purpose
-TBD - created by archiving change clean-hydrocore-baseline. Update Purpose after archive.
+定义 HydroCore 清理后的基线边界，确保默认源码、初始化数据、文档和协作配置不再暴露旧项目业务语义，并为后续水处理二开提供可验证、可扩展的通用底座。
+
 ## Requirements
 ### Requirement: Clean baseline business semantics
 HydroCore 作为水处理二开基线时 SHALL 不在默认源码、初始化脚本、环境模板和用户可见文档中暴露旧窑炉、液位、压力、预测等项目语义，除非文档明确标记为历史迁移说明。
@@ -76,4 +77,3 @@ HydroCore 作为水处理二开基线时 SHALL 不在默认源码、初始化脚
 #### Scenario: Comet remains callable globally
 - **WHEN** 开发者在仓库中调用 Comet workflow
 - **THEN** Comet/OpenSpec MUST 通过全局安装和仓库 `openspec/` artifact 工作，而不依赖重复的仓库本地 skills 副本
-

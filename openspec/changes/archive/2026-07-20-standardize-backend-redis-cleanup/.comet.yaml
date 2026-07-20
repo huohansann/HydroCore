@@ -16,13 +16,13 @@ plan: docs/superpowers/plans/2026-07-20-standardize-backend-redis-cleanup.md
 verify_result: pass
 verify_failures: 0
 verification_report: docs/superpowers/reports/2026-07-20-standardize-backend-redis-cleanup-verify.md
-branch_status: pending
+branch_status: handled
 created_at: 2026-07-20
 verified_at: 2026-07-20
 archive_confirmation: confirmed
 archived: true
 direct_override: null
-handoff_context: openspec/changes/standardize-backend-redis-cleanup/.comet/handoff/design-context.json
+handoff_context: openspec/changes/archive/2026-07-20-standardize-backend-redis-cleanup/.comet/handoff/design-context.json
 handoff_hash: c3c1881aa456c0a1576b15055bcceb419517b0fcd82d7c2f8e3078c39165bd4a
 classic_profile: full
 classic_migration: 1

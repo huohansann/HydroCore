@@ -22,8 +22,8 @@ verified_at: null
 archive_confirmation: null
 archived: false
 direct_override: null
-handoff_context: openspec/changes/audit-project-baseline/.comet/handoff/design-context.json
-handoff_hash: 50a8de31775e8135ce55a4eeb8ca189bcc4fbbb286c15f41aad448e09cdcc618
 classic_profile: full
 classic_migration: 1
 run_id: d5d7d849-b5ac-4061-83cc-84285190a65f
+handoff_context: openspec/changes/audit-project-baseline/.comet/handoff/design-context.json
+handoff_hash: 075b8e98e73c43dec3c0798cdf508004fb38e2db04b14b6fcc9e82acf196c02b

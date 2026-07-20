@@ -8,13 +8,15 @@
 - 当前 change 处于 design 阶段，OpenSpec open artifacts 已完成并通过 strict validate。
 - 目标是验证当前 HydroCore 仓库作为未来几个月二次开发基础时，哪些内容可优化、可删除、需保留或应拆为后续 change。
 - 范围覆盖 `hydrocore-be`、`hydrocore-fe`、`docs`、`openspec`、数据库脚本、构建配置、生成物和本地协作配置。
+- 用户明确要求覆盖前后端代码的优化和整改；该范围纳入当前 change，但必须保持低风险、可验证，不改变 public API、数据库 schema 或业务能力边界。
+- 产物纪律：OpenSpec、Comet、Superpowers 产物必须中文主导，必要技术术语可保留英文。
 - 不新增水处理业务能力、public API、业务 schema、页面或大规模架构重写。
 
 ## 候选技术方案
 
 ### 方案 A：报告优先 + 低风险清理（已确认）
 
-先生成完整审计清单与证据，再只执行证据充分、低风险、与现有 specs 一致的清理或文档修正。涉及 public API、schema、新业务能力或架构调整的发现只记录为后续 change。
+先生成完整审计清单与证据，再只执行证据充分、低风险、与现有 specs 一致的前后端源码整改、配置清理或文档修正。涉及 public API、schema、新业务能力或架构调整的发现只记录为后续 change。
 
 优点：能在本 change 内交付可用基线，同时避免误删。缺点：不是所有发现都会立即修完。
 
@@ -52,4 +54,4 @@
 
 ## Spec Patch
 
-暂无。当前 delta spec 足够表达审计覆盖、分类、报告和验证要求。
+已补充前后端源码优化整改要求，明确允许低风险源码整改，并将高风险源码变更拆为后续 OpenSpec/Comet change。

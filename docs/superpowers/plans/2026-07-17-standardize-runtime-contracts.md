@@ -6,7 +6,7 @@ base-ref: unborn-head
 
 # Standardize Runtime Contracts Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** 建立 HydroCore 运行期基础规约：后端显式返回 `ApiResponse<T>`，前端只消费一个 envelope，线程池统一配置，日志统一且可排障。
 
@@ -163,7 +163,7 @@ base-ref: unborn-head
 - Consumes: existing return types and frontend call-site assumptions.
 - Produces: concrete migration list used by Tasks 2, 3, and 4.
 
-- [ ] **Step 1: Scan backend API return wrappers**
+- [x] **Step 1: Scan backend API return wrappers**
 
 Run:
 
@@ -173,7 +173,7 @@ rg -n "com\.siact\.hydrocore\.common\.R|com\.siact\.hydrocore\.common\.result\.R
 
 Expected: output lists each old wrapper usage and every REST entry point. Record entries under these categories in the task notes of the implementation session: controller return, exception handler return, security handler writer, advice wrapper, external Feign DTO.
 
-- [ ] **Step 2: Scan backend raw and String response risks**
+- [x] **Step 2: Scan backend raw and String response risks**
 
 Run:
 
@@ -183,7 +183,7 @@ rg -n "public .* (String|Object|Map|List|Boolean|boolean|void)\s+\w+\(" hydrocor
 
 Expected: every REST method returning a raw business type is identified for explicit `ApiResponse<T>` migration. File download or stream endpoints are marked as explicit exceptions only when they write `HttpServletResponse`, return `ResponseEntity<Resource>`, or use a documented framework response.
 
-- [ ] **Step 3: Scan frontend envelope consumers**
+- [x] **Step 3: Scan frontend envelope consumers**
 
 Run:
 
@@ -193,7 +193,7 @@ rg -n "ResponseModel|response\.data|const \{ message, data \}|result\.data|resul
 
 Expected: all request modules still typed as `ResponseModel<T>` and all page components reading old `{ message, data }` are listed for Task 4.
 
-- [ ] **Step 4: Scan logging violations**
+- [x] **Step 4: Scan logging violations**
 
 Run:
 
@@ -203,7 +203,7 @@ rg -n "System\.out\.println|printStackTrace\(|log\.error\(\"\\{\\} error|发生.
 
 Expected: known violations include `TimeUtil`, `JepUtils`, `ExcelUtils`, `RedisService`, `ConvertUtils`, `GlobalExceptionHandler`, plus any TDengine or SEC service vague logs found by the scan.
 
-- [ ] **Step 5: Do not commit**
+- [x] **Step 5: Do not commit**
 
 Run:
 
@@ -231,7 +231,7 @@ Expected: working tree may contain existing uncommitted changes. Do not run `git
   - Static factories `success(T data)`, `success(T data, String message)`, `fail(int code, String message)`, `fail(int code, String message, T data)`.
   - `ApiResponseCode` values `SUCCESS(200, "操作成功")`, `BAD_REQUEST(400, "请求参数错误")`, `UNAUTHORIZED(401, "未登录或token已过期")`, `FORBIDDEN(403, "没有相关权限")`, `INTERNAL_ERROR(500, "服务器内部错误")`.
 
-- [ ] **Step 1: Write ApiResponse tests first**
+- [x] **Step 1: Write ApiResponse tests first**
 
 Create `ApiResponseTest.java` with these cases:
 
@@ -275,7 +275,7 @@ mvn -q -Dtest=com.siact.hydrocore.common.api.ApiResponseTest test
 
 Expected: FAIL because `ApiResponse` does not exist yet.
 
-- [ ] **Step 2: Add `ApiResponseCode`**
+- [x] **Step 2: Add `ApiResponseCode`**
 
 Implement `ApiResponseCode` as an enum with `getCode()` and `getMessage()`:
 
@@ -315,7 +315,7 @@ mvn -q -DskipTests compile
 
 Expected: FAIL only if `ApiResponse` references are still missing; no enum syntax errors.
 
-- [ ] **Step 3: Add `ApiResponse<T>`**
+- [x] **Step 3: Add `ApiResponse<T>`**
 
 Implement `ApiResponse<T>` as immutable enough for API use and Jackson serialization:
 
@@ -389,7 +389,7 @@ mvn -q -Dtest=com.siact.hydrocore.common.api.ApiResponseTest test
 
 Expected: PASS for `ApiResponseTest`.
 
-- [ ] **Step 4: Add traceId resolver**
+- [x] **Step 4: Add traceId resolver**
 
 Create `TraceIdResolver`:
 
@@ -436,7 +436,7 @@ mvn -q -DskipTests compile
 
 Expected: PASS or only unrelated existing compile errors. `TraceIdResolver` compiles under Java 8.
 
-- [ ] **Step 5: Deprecate legacy wrappers**
+- [x] **Step 5: Deprecate legacy wrappers**
 
 Add `@Deprecated` and class-level Javadoc to `ResponseEntity`, `common.R`, and `common.result.R`:
 
@@ -465,7 +465,7 @@ Expected: code still compiles, but future use is visible during reviews and IDE 
 - Consumes: `ApiResponse<T>` and `TraceIdResolver.currentTraceId()`.
 - Produces: backend API entry points that return `ApiResponse<T>` directly and no normal API wrapping by advice.
 
-- [ ] **Step 1: Write static scan test for forbidden API return types**
+- [x] **Step 1: Write static scan test for forbidden API return types**
 
 Create `RuntimeContractStaticScanTest.java` with a source scan that excludes tests and external generated files:
 
@@ -543,7 +543,7 @@ mvn -q -Dtest=com.siact.hydrocore.architecture.RuntimeContractStaticScanTest tes
 
 Expected: FAIL before migration because `ResponseBodyAdvice`, `ResponseEntity`, `System.out.println`, and `printStackTrace` still exist in runtime paths.
 
-- [ ] **Step 2: Migrate `GlobalExceptionHandler`**
+- [x] **Step 2: Migrate `GlobalExceptionHandler`**
 
 Change method return types from `ResponseEntity<String>` to `ApiResponse<String>` and log with accurate levels. Use this shape:
 
@@ -577,7 +577,7 @@ public class GlobalExceptionHandler {
 
 Expected: validation/auth/business failures do not log as unknown crashes; unknown exceptions hide stack details from client but keep stack trace in logs.
 
-- [ ] **Step 3: Migrate security handlers**
+- [x] **Step 3: Migrate security handlers**
 
 In `AuthenticationEntryPointImpl` and `LogoutSuccessHandlerImpl`, serialize `ApiResponse`:
 
@@ -602,7 +602,7 @@ mvn -q -DskipTests compile
 
 Expected: PASS or compile failures only in controllers that still import old wrappers.
 
-- [ ] **Step 4: Migrate controllers by module**
+- [x] **Step 4: Migrate controllers by module**
 
 For each controller file, replace old imports and method signatures. Use this mapping:
 
@@ -635,7 +635,7 @@ mvn -q -DskipTests compile
 
 Expected: compile errors shrink after each group. Finish when no controller imports `com.siact.hydrocore.common.R`, `com.siact.hydrocore.common.result.R`, or `com.siact.hydrocore.common.entity.ResponseEntity`.
 
-- [ ] **Step 5: Delete `ResponseBodyAdvice` wrapper**
+- [x] **Step 5: Delete `ResponseBodyAdvice` wrapper**
 
 Delete `hydrocore-be/src/main/java/com/siact/hydrocore/core/web/advice/ResponseBodyAdvice.java`. Then run:
 
@@ -645,7 +645,7 @@ rg -n "ResponseBodyAdvice|NoResponseAdvice|SuccessMessage" hydrocore-be\src\main
 
 Expected: no `ResponseBodyAdvice` implementation remains. `NoResponseAdvice` and `SuccessMessage` either have no references and can be deleted in the same task, or have explicit documented non-wrapping use.
 
-- [ ] **Step 6: Add exception and security response tests**
+- [x] **Step 6: Add exception and security response tests**
 
 Create tests that serialize handlers and assert canonical fields:
 
@@ -664,7 +664,7 @@ mvn -q -Dtest=com.siact.hydrocore.common.exception.GlobalExceptionHandlerTest,co
 
 Expected: PASS. Failure means an error path still emits an old envelope or omits `traceId`.
 
-- [ ] **Step 7: Run backend response static scan**
+- [x] **Step 7: Run backend response static scan**
 
 Run:
 
@@ -694,7 +694,7 @@ Expected: response wrapper section PASS after API migration; logging section may
   - `AppHttpError` with `code?: number; status?: number; message: string; traceId?: string; raw?: unknown; action?: ...`.
   - `http.request<T>()` resolves to business `T`, not `ApiEnvelope<T>`.
 
-- [ ] **Step 1: Add envelope helper**
+- [x] **Step 1: Add envelope helper**
 
 Create `envelope.ts` with this API:
 
@@ -760,7 +760,7 @@ pnpm.cmd run build
 
 Expected: FAIL until imports and adapter are migrated.
 
-- [ ] **Step 2: Change `axios.ts` request semantics**
+- [x] **Step 2: Change `axios.ts` request semantics**
 
 Make `request<T>` return business data:
 
@@ -784,7 +784,7 @@ async (error: AxiosError) => {
 
 Expected: `window.$message.error(message)` is removed from `axios.ts`; user-facing behavior goes through `http:error`.
 
-- [ ] **Step 3: Update frontend error event types**
+- [x] **Step 3: Update frontend error event types**
 
 Change `events.ts`:
 
@@ -820,7 +820,7 @@ pnpm.cmd run build
 
 Expected: remaining failures identify request modules and page consumers that still expect `ResponseModel<T>`.
 
-- [ ] **Step 4: Update request modules to return business data**
+- [x] **Step 4: Update request modules to return business data**
 
 Replace `http.request<ResponseModel<T>>` with `http.request<T>`. Example:
 
@@ -846,7 +846,7 @@ rg -n "http\.request<ResponseModel|AxiosError<ResponseModel|ResponseModel<" hydr
 
 Expected: no request module still calls `http.request<ResponseModel<...>>`. If global `ResponseModel` remains for unrelated compatibility, it must not be used by default HTTP calls.
 
-- [ ] **Step 5: Update page consumers**
+- [x] **Step 5: Update page consumers**
 
 Replace old result envelope reads:
 
@@ -875,7 +875,7 @@ rg -n "const \{ message, data \}|result\.data|result\.message" hydrocore-fe\src\
 
 Expected: no page depends on old envelope `message/data` for normal request handling.
 
-- [ ] **Step 6: Add frontend contract verification script**
+- [x] **Step 6: Add frontend contract verification script**
 
 Create `hydrocore-fe/scripts/verify-http-contract.mjs` as a static guard that checks adapter ownership:
 
@@ -945,7 +945,7 @@ Expected: both PASS. If build fails, remaining TypeScript errors point to old en
 - Consumes: existing bean names `threadIoPoolTaskExecutor`, `threadCpuPoolTaskExecutor`, `backgroundTaskExecutor`, `eventTaskExecutor`.
 - Produces: property-driven executors with `coreSize`, `maxSize`, `queueCapacity`, `keepAliveSeconds`, `threadNamePrefix`, `allowCoreThreadTimeout`, `waitForTasksToCompleteOnShutdown`, `awaitTerminationSeconds`, `rejectionPolicy`.
 
-- [ ] **Step 1: Write thread pool binding test**
+- [x] **Step 1: Write thread pool binding test**
 
 Create `RuntimeThreadPoolPropertiesTest.java`:
 
@@ -995,7 +995,7 @@ mvn -q -Dtest=com.siact.hydrocore.core.common.config.RuntimeThreadPoolProperties
 
 Expected: FAIL until properties class exists.
 
-- [ ] **Step 2: Add `RuntimeThreadPoolProperties`**
+- [x] **Step 2: Add `RuntimeThreadPoolProperties`**
 
 Implement nested pool settings with conservative defaults:
 
@@ -1027,7 +1027,7 @@ public class RuntimeThreadPoolProperties {
 
 Expected: defaults cover IO、CPU、background、event. Keep event prefix compatible with existing `EventProperties`.
 
-- [ ] **Step 3: Add executor builder**
+- [x] **Step 3: Add executor builder**
 
 Create builder:
 
@@ -1059,7 +1059,7 @@ mvn -q -DskipTests compile
 
 Expected: PASS or only references pending migration in config classes.
 
-- [ ] **Step 4: Refactor `ThreadPoolConfig`**
+- [x] **Step 4: Refactor `ThreadPoolConfig`**
 
 Enable properties and inject builder:
 
@@ -1091,7 +1091,7 @@ public class ThreadPoolConfig {
 
 Expected: remove static mutable fields and repeated hardcoded executor creation.
 
-- [ ] **Step 5: Reuse builder in event configuration**
+- [x] **Step 5: Reuse builder in event configuration**
 
 Keep bean name `eventTaskExecutor` and preserve `spring.event.thread-pool` compatibility. In `EventConfiguration`, convert `EventProperties.ThreadPool` to `RuntimeThreadPoolProperties.Pool`, then call the same builder.
 
@@ -1103,7 +1103,7 @@ mvn -q -DskipTests compile
 
 Expected: `AsyncEventPublisher` still injects `@Qualifier("eventTaskExecutor") Executor` successfully.
 
-- [ ] **Step 6: Document defaults and CallerRunsPolicy**
+- [x] **Step 6: Document defaults and CallerRunsPolicy**
 
 Add `hydrocore.thread-pools` defaults to `hydrocore-be/src/main/resources/nacos/hydrocore.yml` and describe in `nacos/README.md`:
 
@@ -1121,7 +1121,7 @@ hydrocore:
 
 Expected: operators know queue full behavior: `caller-runs` makes the submitting thread execute the task, applying backpressure instead of silently dropping work.
 
-- [ ] **Step 7: Run thread pool tests**
+- [x] **Step 7: Run thread pool tests**
 
 Run:
 
@@ -1148,7 +1148,7 @@ Expected: PASS.
 - Consumes: `TraceIdResolver.currentTraceId()`.
 - Produces: parameterized SLF4J logs with operation, stage, identifiers, traceId, and exception object where applicable.
 
-- [ ] **Step 1: Replace console output and stack trace calls**
+- [x] **Step 1: Replace console output and stack trace calls**
 
 For every `printStackTrace()`:
 
@@ -1164,7 +1164,7 @@ log.debug("calculation result, value={}, traceId={}", calc, TraceIdResolver.curr
 
 Expected: no runtime code uses console output for operational problems.
 
-- [ ] **Step 2: Normalize `GlobalExceptionHandler` log levels**
+- [x] **Step 2: Normalize `GlobalExceptionHandler` log levels**
 
 Use `warn` for validation/auth/authorization/business denials and `error` only for unexpected exceptions. Example:
 
@@ -1175,7 +1175,7 @@ log.error("unhandled request exception, handler={}, traceId={}, exceptionType={}
 
 Expected: logs describe the actual condition and do not label expected denials as system crashes.
 
-- [ ] **Step 3: Normalize TDengine and SEC service logs**
+- [x] **Step 3: Normalize TDengine and SEC service logs**
 
 Replace vague logs such as `"{} error"` or `"请求数字孪生...发生异常"` with operation-specific messages:
 
@@ -1186,7 +1186,7 @@ log.error("tdengine query failed, operation=queryRealtimeData, sql={}, traceId={
 
 Expected: each log contains operation and key identifier. Expected empty upstream data uses `warn` or `info`, not `error`.
 
-- [ ] **Step 4: Run logging scan**
+- [x] **Step 4: Run logging scan**
 
 Run:
 
@@ -1196,7 +1196,7 @@ rg -n "System\.out\.println|printStackTrace\(|log\.error\(\"\\{\\} error" hydroc
 
 Expected: no output. If output remains in non-runtime samples, move samples out of runtime source or justify with explicit exclusion in `RuntimeContractStaticScanTest`.
 
-- [ ] **Step 5: Run static scan test**
+- [x] **Step 5: Run static scan test**
 
 Run:
 
@@ -1217,7 +1217,7 @@ Expected: PASS for both old response wrapper and forbidden logging scans.
 - Consumes: all implementation outputs.
 - Produces: repeatable commands that protect the runtime contracts from drift.
 
-- [ ] **Step 1: Backend compile**
+- [x] **Step 1: Backend compile**
 
 Run from `hydrocore-be`:
 
@@ -1227,7 +1227,7 @@ mvn -q -DskipTests compile
 
 Expected: PASS. No Java compile errors, no missing imports after deleting `ResponseBodyAdvice`.
 
-- [ ] **Step 2: Backend tests**
+- [x] **Step 2: Backend tests**
 
 Run from `hydrocore-be`:
 
@@ -1243,7 +1243,7 @@ mvn -q -DskipTests=false -Dtest=com.siact.hydrocore.common.api.ApiResponseTest,c
 
 Expected: targeted tests PASS and show contract regressions if old wrappers or forbidden logs return.
 
-- [ ] **Step 3: Backend static command scan**
+- [x] **Step 3: Backend static command scan**
 
 Run from repo root:
 
@@ -1253,7 +1253,7 @@ rg -n "ResponseBodyAdvice|implements org\.springframework\.web\.servlet\.mvc\.me
 
 Expected: no output except deprecated wrapper class declarations if they remain for compatibility. No controller, exception handler, security handler, or advice implementation should appear.
 
-- [ ] **Step 4: Frontend contract verification**
+- [x] **Step 4: Frontend contract verification**
 
 Run from `hydrocore-fe`:
 
@@ -1263,7 +1263,7 @@ pnpm.cmd run verify:http-contract
 
 Expected: output contains `frontend http contract verification passed`.
 
-- [ ] **Step 5: Frontend production build**
+- [x] **Step 5: Frontend production build**
 
 Run from `hydrocore-fe`:
 
@@ -1273,7 +1273,7 @@ pnpm.cmd run build
 
 Expected: PASS. Vue type checking catches old `ResponseModel<T>` assumptions and pages still trying to read envelope `message/data`.
 
-- [ ] **Step 6: OpenSpec task status**
+- [x] **Step 6: OpenSpec task status**
 
 After implementation and verification, update `openspec/changes/standardize-runtime-contracts/tasks.md` checkboxes that correspond to completed work. Do not commit.
 
@@ -1290,7 +1290,7 @@ Expected: tasks 1.1 through 6.5 reflect actual completion. Any failed verificati
 - Consumes: verification outputs from Task 7.
 - Produces: final implementation handoff for Comet verify phase.
 
-- [ ] **Step 1: Check spec coverage**
+- [x] **Step 1: Check spec coverage**
 
 Run:
 
@@ -1300,7 +1300,7 @@ openspec.cmd status --change standardize-runtime-contracts --json
 
 Expected: change still exists and implementation can be compared against the delta spec. The command does not require a Git commit.
 
-- [ ] **Step 2: Check only intended files changed**
+- [x] **Step 2: Check only intended files changed**
 
 Run:
 
@@ -1310,7 +1310,7 @@ git status --short
 
 Expected: changed files match this plan plus OpenSpec task status updates. Because `git rev-parse HEAD` fails in this repository, do not try to create a commit or compare against `HEAD`.
 
-- [ ] **Step 3: Record verification evidence**
+- [x] **Step 3: Record verification evidence**
 
 Record exact command outcomes for:
 
@@ -1324,7 +1324,7 @@ rg -n "ResponseBodyAdvice|ResponseEntity<|ResponseEntity\.|System\.out\.println|
 
 Expected: compile/test/build commands PASS; static scan has no forbidden runtime usage.
 
-- [ ] **Step 4: Stop before commit**
+- [x] **Step 4: Stop before commit**
 
 Do not run:
 

@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "change": "clean-hydrocore-baseline",
-  "branch": null
+  "change": "standardize-runtime-contracts",
+  "branch": "feature-20260717-standardize-runtime-contracts"
 }

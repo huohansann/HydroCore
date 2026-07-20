@@ -16,7 +16,7 @@ plan: docs/superpowers/plans/2026-07-20-audit-project-baseline.md
 verify_result: pass
 verify_failures: 0
 verification_report: docs/superpowers/reports/2026-07-20-audit-project-baseline-verify.md
-branch_status: pending
+branch_status: handled
 created_at: 2026-07-20
 verified_at: 2026-07-20
 archive_confirmation: confirmed
@@ -25,5 +25,5 @@ direct_override: null
 classic_profile: full
 classic_migration: 1
 run_id: d5d7d849-b5ac-4061-83cc-84285190a65f
-handoff_context: openspec/changes/audit-project-baseline/.comet/handoff/design-context.json
+handoff_context: openspec/changes/archive/2026-07-20-audit-project-baseline/.comet/handoff/design-context.json
 handoff_hash: 075b8e98e73c43dec3c0798cdf508004fb38e2db04b14b6fcc9e82acf196c02b

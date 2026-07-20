@@ -4,12 +4,12 @@
 
 | 维度 | 结论 |
 |---|---|
-| 是否适合作为未来开发基线 | 待验证 |
+| 是否适合作为未来开发基线 | 适合。当前基线已通过后端测试、前端构建和 OpenSpec 校验；剩余高风险事项均已归入后续 change 候选 |
 | 必须修复 | 0 |
-| 建议优化 | 0 |
-| 可删除候选 | 0 |
-| 保留例外 | 0 |
-| 后续 change 候选 | 0 |
+| 建议优化 | 2 |
+| 可删除候选 | 4 |
+| 保留例外 | 7 |
+| 后续 change 候选 | 2 |
 
 ## 扫描命令与证据
 
@@ -198,3 +198,7 @@ rg -n -i "TBD|TODO|乱码" README.md docs hydrocore-be\docs hydrocore-fe\docs op
 | 2026-07-20 | `openspec.cmd validate audit-project-baseline --strict` | 文档/Comet 仓库根目录 | 通过 | 当前 OpenSpec change 有效 |
 | 2026-07-20 | `openspec.cmd status --change audit-project-baseline --json` | 文档/Comet 仓库根目录 | 通过 | planning artifacts 完整，`isComplete=true` |
 | 2026-07-20 | `rg -n -i "TBD|TODO|乱码" ...` | 文档/Comet 仓库根目录 | 通过 | 二次扫描无命中 |
+| 2026-07-20 | `mvn.cmd -q test` | `hydrocore-be` | 通过 | 最终后端完整验证通过 |
+| 2026-07-20 | `pnpm.cmd run build` | `hydrocore-fe` | 通过 | 最终前端完整验证通过 |
+| 2026-07-20 | `openspec.cmd validate audit-project-baseline --strict` | 文档/Comet 仓库根目录 | 通过 | 最终 OpenSpec 校验通过 |
+| 2026-07-20 | `git status --short` | 三个独立仓库 | 通过 | 前后端源码仓库干净；文档/Comet 仓库仅根 `.comet/` 为本地未跟踪状态 |

@@ -5,6 +5,7 @@
 - Default to Chinese for all assistant communication in this repository, including new sessions.
 - Git commit messages must be written in Chinese unless the user explicitly asks for another language.
 - Documents produced through skills, including OpenSpec, Comet, Superpowers, design docs, plans, verification reports, archive notes, and summaries, must be written in Chinese.
+- Skill-produced project documents must be stored under the root `docs/superpowers/` tree by default, not inside sub-project directories such as `hydrocore-be/docs/superpowers/`.
 - Keep code symbols, commands, configuration keys, API names, filenames, and other literal identifiers in their original language.
 - Treat this as a strict discipline, not a style preference.
 
